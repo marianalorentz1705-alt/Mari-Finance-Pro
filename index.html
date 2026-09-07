@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f8d9e6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Mari Finance</title>
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+ --bg:#fff9fb;--surface:#fff;--soft:#fbeaf2;--soft2:#f7d9e7;--accent:#e66d99;
+ --accent2:#d95787;--ink:#29212a;--muted:#8d7f88;--line:#f0dfe7;
+ --green:#3d9b78;--red:#d85b70;--yellow:#c58a37;--shadow:0 10px 35px rgba(125,55,86,.08);
+}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{min-height:100vh}.app{max-width:760px;margin:auto;padding:20px 17px 105px}
+button,input,select{font:inherit}button{border:0;cursor:pointer}
+.top{display:flex;justify-content:space-between;align-items:center;margin:3px 0 19px}
+.brand{font-size:23px;font-weight:800;letter-spacing:-.8px}.brand b{color:var(--accent)}
+.avatar{width:39px;height:39px;border-radius:50%;background:linear-gradient(135deg,#f7bdd4,#e76e99);color:#fff;display:grid;place-items:center;font-weight:800}
+.view{display:none}.view.active{display:block}
+.hello{color:var(--muted);font-size:13px;margin-bottom:3px}.title{font-size:28px;letter-spacing:-1.1px;margin:0 0 16px}
+.balance{background:linear-gradient(135deg,#f9d8e5,#f6c7da);border-radius:24px;padding:21px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.balance:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-35px;top:-55px;background:rgba(255,255,255,.28)}
+.balance .small{font-size:12px;color:#785f6c}.balance .big{font-size:32px;font-weight:850;margin:7px 0 13px;letter-spacing:-1.3px}.balance .sub{font-size:12px;color:#765f69}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}.mini{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:13px}.mini small{color:var(--muted);font-size:10px}.mini strong{display:block;font-size:15px;margin-top:5px}.income{color:var(--green)}.expense{color:var(--red)}
+.section{margin-top:20px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-head h2{font-size:17px;margin:0}.link{color:var(--accent2);font-size:12px;font-weight:700;background:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:19px;padding:15px;box-shadow:var(--shadow)}
+.alert{background:#fff4e4;border:1px solid #f4dfbc;border-radius:16px;padding:13px;font-size:12px;line-height:1.45;margin-bottom:8px}
+.tx{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}.tx:last-child{border-bottom:0}.txicon{width:40px;height:40px;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:18px}.txmain{flex:1}.txmain strong{display:block;font-size:13px}.txmain small{color:var(--muted);font-size:10px}.txval{font-weight:800;font-size:13px}
+.actions{display:flex;gap:8px}.primary{background:var(--accent);color:#fff;border-radius:14px;padding:13px 16px;font-weight:800;box-shadow:0 8px 20px rgba(230,109,153,.25)}.secondary{background:var(--soft);color:#744d5d;border-radius:13px;padding:11px 13px;font-weight:700}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:21px;padding:16px;box-shadow:var(--shadow)}.form h2{margin:0 0 14px;font-size:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px}input,select{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px;color:var(--ink);outline:none}input:focus,select:focus{border-color:#e8a4bd;box-shadow:0 0 0 3px #fbeaf2}.full{grid-column:1/-1}
+.tabs{display:flex;gap:7px;background:#f9eef3;border-radius:14px;padding:4px;margin-bottom:12px}.tabs button{flex:1;padding:9px 5px;border-radius:11px;background:transparent;color:var(--muted);font-size:11px;font-weight:700}.tabs button.on{background:#fff;color:var(--accent2);box-shadow:0 3px 12px rgba(100,40,70,.08)}
+.goal{margin-bottom:10px}.goal-top{display:flex;justify-content:space-between;gap:10px}.goal-name{font-weight:800;font-size:14px}.goal-pct{color:var(--accent2);font-size:12px;font-weight:800}.progress{height:9px;background:#f3e8ed;border-radius:99px;margin:10px 0 7px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#ef9fbb,#d95787);border-radius:99px}.goal-meta{font-size:10px;color:var(--muted)}
+.payment{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}.payment:last-child{border-bottom:0}.paydate{width:45px;text-align:center;background:var(--soft);border-radius:12px;padding:7px 2px;font-size:9px;color:#7e5d6b}.paydate b{display:block;font-size:16px;color:var(--accent2)}.paymain{flex:1}.paymain strong{font-size:13px}.paymain small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.status{font-size:10px;padding:5px 8px;border-radius:99px;background:#fff1f4;color:var(--red);font-weight:800}.status.paid{background:#edf8f3;color:var(--green)}
+.bar-row{margin:12px 0}.bar-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}.bar-bg{height:8px;background:#f3e8ed;border-radius:99px}.bar-bg i{display:block;height:100%;background:#df8aaa;border-radius:99px}
+canvas{display:block;margin:auto;max-width:100%}.empty{padding:24px;text-align:center;color:var(--muted);font-size:12px}
+nav{position:fixed;z-index:20;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px max(5px,env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom))}
+nav button{background:none;color:#9a8992;flex:1;max-width:140px;font-size:9px;font-weight:700}nav button.active{color:var(--accent2)}nav .ico{font-size:20px;display:block;margin-bottom:3px}
+.fab{position:fixed;right:19px;bottom:83px;width:54px;height:54px;border-radius:50%;background:var(--accent);color:#fff;font-size:27px;box-shadow:0 12px 28px rgba(217,87,135,.3);z-index:19}
+@media(min-width:600px){.app{padding-left:25px;padding-right:25px}.fab{right:calc(50% - 350px)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">Mari <b>Finance</b></div><div class="avatar">M</div></header>
+
+<section id="home" class="view active">
+ <div class="hello">Bom dia, Mari ✨</div><h1 class="title">Seu dinheiro, do seu jeito.</h1>
+ <div class="balance"><div class="small">Saldo disponível</div><div class="big" id="balance">R$ 0,00</div><div class="sub" id="balanceSub">Entradas − gastos − metas</div></div>
+ <div class="mini-grid"><div class="mini"><small>Entradas</small><strong class="income" id="income">R$ 0,00</strong></div><div class="mini"><small>Gastos</small><strong class="expense" id="expenses">R$ 0,00</strong></div><div class="mini"><small>Metas</small><strong id="saved">R$ 0,00</strong></div></div>
+ <div class="section"><div class="section-head"><h2>Como você está gastando</h2><button class="link" onclick="go('reports')">Ver análise</button></div><div class="card"><canvas id="pie" width="260" height="220"></canvas><div id="legend"></div></div></div>
+ <div class="section"><div class="section-head"><h2>Alertas da Mari IA</h2></div><div id="alerts"></div></div>
+ <div class="section"><div class="section-head"><h2>Últimos lançamentos</h2><button class="link" onclick="go('transactions')">Ver todos</button></div><div class="card" id="recent"></div></div>
+</section>
+
+<section id="transactions" class="view">
+ <h1 class="title">Lançamentos</h1>
+ <div class="tabs"><button class="on" onclick="setFilter('all',this)">Todos</button><button onclick="setFilter('expense',this)">Saídas</button><button onclick="setFilter('income',this)">Entradas</button><button onclick="setFilter('goal',this)">Metas</button></div>
+ <div class="form">
+  <h2>Novo lançamento</h2><div class="grid">
+   <div><label>Tipo</label><select id="tType"><option value="expense">Gasto</option><option value="income">Entrada</option><option value="goal">Guardar para meta</option></select></div>
+   <div><label>Valor</label><input id="tAmount" type="number" step="0.01" placeholder="0,00"></div>
+   <div><label>Categoria</label><select id="tCategory"></select></div>
+   <div><label>Pagamento</label><select id="tPayment"><option>Pix</option><option>Cartão de crédito</option><option>Cartão de débito</option><option>Dinheiro</option><option>Transferência</option><option>Outro</option></select></div>
+   <div><label>Data</label><input id="tDate" type="date"></div><div><label>Meta</label><select id="tGoal"><option value="">Nenhuma</option></select></div>
+   <div class="full"><label>Descrição</label><input id="tDesc" placeholder="Ex.: jantar, Uber, Zara..."></div>
+  </div><div style="margin-top:12px"><button class="primary" style="width:100%" onclick="addTransaction()">Salvar lançamento</button></div>
+ </div>
+ <div class="section"><div class="card" id="allTransactions"></div></div>
+</section>
+
+<section id="goals" class="view">
+ <h1 class="title">Minhas metas</h1>
+ <div class="form"><h2>Criar uma meta</h2><div class="grid">
+  <div><label>Nome da meta</label><input id="gName" placeholder="Ex.: Viagem para a Europa"></div>
+  <div><label>Valor-alvo</label><input id="gTarget" type="number" step="0.01" placeholder="10.000"></div>
+  <div><label>Prazo</label><input id="gDate" type="date"></div>
+  <div><label>Valor mensal desejado</label><input id="gMonthly" type="number" step="0.01" placeholder="500"></div>
+ </div><div style="margin-top:12px"><button class="primary" style="width:100%" onclick="addGoal()">Criar meta</button></div></div>
+ <div class="section"><div id="goalList"></div></div>
+</section>
+
+<section id="bills" class="view">
+ <h1 class="title">Próximos pagamentos</h1>
+ <div class="card" style="margin-bottom:12px;background:linear-gradient(135deg,#fff,#fbeaf2)"><strong>DDA da Mari</strong><p style="font-size:11px;color:var(--muted);margin:6px 0 0">Cadastre suas contas e acompanhe o que vence, o que já foi pago e o que está chegando.</p></div>
+ <div class="form"><h2>Novo pagamento</h2><div class="grid">
+  <div><label>O que você vai pagar?</label><input id="bName" placeholder="Ex.: Seguro do carro"></div>
+  <div><label>Valor</label><input id="bAmount" type="number" step="0.01" placeholder="0,00"></div>
+  <div><label>Vencimento</label><input id="bDate" type="date"></div>
+  <div><label>Categoria</label><select id="bCategory"></select></div>
+  <div><label>Forma de pagamento</label><select id="bPayment"><option>Pix</option><option>Débito automático</option><option>Cartão de crédito</option><option>Boleto</option><option>Dinheiro</option><option>Outro</option></select></div>
+  <div><label>Recorrente?</label><select id="bRecurring"><option>Não</option><option>Mensal</option><option>Anual</option></select></div>
+ </div><div style="margin-top:12px"><button class="primary" style="width:100%" onclick="addBill()">Adicionar pagamento</button></div></div>
+ <div class="section"><div class="section-head"><h2>Contas cadastradas</h2><span class="link" id="billTotal"></span></div><div class="card" id="billList"></div></div>
+</section>
+
+<section id="reports" class="view">
+ <h1 class="title">Relatórios</h1>
+ <div class="form"><label>Mês analisado</label><input id="rMonth" type="month"><div style="margin-top:10px" class="actions"><button class="primary" style="flex:1" onclick="exportExcel()">Exportar Excel</button></div></div>
+ <div class="section"><div class="card"><div class="section-head"><h2>Gastos por categoria</h2></div><div id="catBars"></div></div></div>
+ <div class="section"><div class="card"><div class="section-head"><h2>Formas de pagamento</h2></div><div id="payBars"></div></div></div>
+ <div class="section"><div class="card"><strong>Resumo do mês</strong><div id="reportSummary" style="margin-top:12px;font-size:13px;line-height:2"></div></div></div>
+</section>
+
+<button class="fab" onclick="go('transactions')">+</button>
+<nav>
+ <button class="active" onclick="go('home',this)"><span class="ico">⌂</span>Início</button>
+ <button onclick="go('transactions',this)"><span class="ico">↕</span>Lançamentos</button>
+ <button onclick="go('goals',this)"><span class="ico">♡</span>Metas</button>
+ <button onclick="go('bills',this)"><span class="ico">◷</span>Pagamentos</button>
+ <button onclick="go('reports',this)"><span class="ico">▥</span>Relatórios</button>
+</nav>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+const CATS=["Alimentação","Transporte","Combustível","Festas & lazer","Roupas","Beleza","Casa","Estudos","Saúde","Assinaturas","Viagem","Compras aleatórias","Outros"];
+const ICONS={"Alimentação":"🍴","Transporte":"🚗","Combustível":"⛽","Festas & lazer":"✨","Roupas":"🛍️","Beleza":"💄","Casa":"🏠","Estudos":"📚","Saúde":"♡","Assinaturas":"◉","Viagem":"✈️","Compras aleatórias":"🛒","Outros":"•"};
+const today=new Date().toISOString().slice(0,10);
+let db=JSON.parse(localStorage.getItem("mariFinanceV2")||'{"transactions":[],"goals":[],"bills":[]}');
+let filter="all";
+const brl=n=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(Number(n)||0);
+const month=()=>new Date().toISOString().slice(0,7);
+const save=()=>localStorage.setItem("mariFinanceV2",JSON.stringify(db));
+function init(){
+ tDate.value=today;bDate.value=today;rMonth.value=month();
+ tCategory.innerHTML=CATS.map(x=>`<option>${x}</option>`).join("");
+ bCategory.innerHTML=CATS.map(x=>`<option>${x}</option>`).join("");
+ refreshGoalSelect();render();
+}
+function refreshGoalSelect(){tGoal.innerHTML='<option value="">Nenhuma</option>'+db.goals.map(g=>`<option value="${g.id}">${g.name}</option>`).join("")}
+function addTransaction(){
+ let e={id:Date.now(),type:tType.value,amount:+tAmount.value,date:tDate.value||today,category:tCategory.value,payment:tPayment.value,goalId:tGoal.value,desc:tDesc.value.trim()||tCategory.value};
+ if(e.amount<=0)return alert("Digite um valor válido.");
+ if(e.type==="goal"&&!e.goalId)return alert("Escolha para qual meta você está guardando.");
+ db.transactions.push(e);save();tAmount.value="";tDesc.value="";render();alert("Lançamento salvo 💗");
+}
+function addGoal(){
+ let g={id:Date.now(),name:gName.value.trim(),target:+gTarget.value,deadline:gDate.value||"",monthly:+gMonthly.value||0};
+ if(!g.name||g.target<=0)return alert("Preencha o nome e o valor-alvo.");
+ db.goals.push(g);save();gName.value="";gTarget.value="";gDate.value="";gMonthly.value="";render();alert("Meta criada ✨");
+}
+function addBill(){
+ let b={id:Date.now(),name:bName.value.trim(),amount:+bAmount.value,date:bDate.value||today,category:bCategory.value,payment:bPayment.value,recurring:bRecurring.value,paid:false};
+ if(!b.name||b.amount<=0)return alert("Preencha o nome e o valor.");
+ db.bills.push(b);save();bName.value="";bAmount.value="";render();alert("Pagamento adicionado.");
+}
+function toggleBill(id){let b=db.bills.find(x=>x.id===id);if(b)b.paid=!b.paid;save();render()}
+function delBill(id){db.bills=db.bills.filter(x=>x.id!==id);save();render()}
+function delTx(id){db.transactions=db.transactions.filter(x=>x.id!==id);save();render()}
+function delGoal(id){if(confirm("Excluir esta meta?")){db.goals=db.goals.filter(x=>x.id!==id);db.transactions=db.transactions.filter(x=>x.goalId!=id);save();render()}}
+function setFilter(x,el){filter=x;document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("on"));el.classList.add("on");renderTransactions()}
+function currentTx(){return db.transactions.filter(e=>e.date.startsWith(month()))}
+function render(){
+ refreshGoalSelect();let es=currentTx(),inc=sum(es.filter(e=>e.type==="income")),exp=sum(es.filter(e=>e.type==="expense")),sav=sum(es.filter(e=>e.type==="goal"));
+ income.textContent=brl(inc);expenses.textContent=brl(exp);saved.textContent=brl(sav);balance.textContent=brl(inc-exp-sav);
+ drawPie(es.filter(e=>e.type==="expense"),exp);renderAlerts(es,inc,exp);renderRecent(es);renderTransactions();renderGoals();renderBills();renderReports();
+}
+const sum=a=>a.reduce((s,x)=>s+x.amount,0);
+function renderRecent(es){let a=es.slice().sort((x,y)=>y.date.localeCompare(x.date)).slice(0,5);recent.innerHTML=a.length?a.map(txHtml).join(""):'<div class="empty">Seus lançamentos aparecerão aqui.</div>'}
+function txHtml(e){return `<div class="tx"><div class="txicon">${ICONS[e.category]||"•"}</div><div class="txmain"><strong>${e.desc}</strong><small>${e.category} · ${e.payment} · ${new Date(e.date+"T12:00").toLocaleDateString("pt-BR")}</small></div><div class="txval ${e.type==="income"?"income":"expense"}">${e.type==="income"?"+":e.type==="goal"?"↗":"−"} ${brl(e.amount)}</div></div>`}
+function renderTransactions(){let es=currentTx().filter(e=>filter==="all"||e.type===filter).slice().reverse();allTransactions.innerHTML=es.length?es.map(e=>txHtml(e)+`<button class="link" onclick="delTx(${e.id})">Excluir</button>`).join(""):'<div class="empty">Nenhum lançamento encontrado neste mês.</div>'}
+function renderGoals(){goalList.innerHTML=db.goals.length?db.goals.map(g=>{let s=sum(db.transactions.filter(e=>e.type==="goal"&&+e.goalId===+g.id));let p=Math.min(100,s/g.target*100);return `<div class="card goal"><div class="goal-top"><div class="goal-name">${g.name}</div><div class="goal-pct">${p.toFixed(0)}%</div></div><div class="progress"><i style="width:${p}%"></i></div><div class="goal-meta"><b>${brl(s)}</b> guardados · faltam ${brl(Math.max(0,g.target-s))}${g.deadline?" · prazo "+new Date(g.deadline+"T12:00").toLocaleDateString("pt-BR"):""}${g.monthly?" · meta mensal "+brl(g.monthly):""}</div><div class="actions" style="margin-top:10px"><button class="secondary" onclick="quickGoal(${g.id})">+ Guardar</button><button class="secondary" onclick="delGoal(${g.id})">Excluir</button></div></div>`}).join(""):'<div class="empty">Crie uma meta para começar a direcionar seu dinheiro.</div>'}
+function quickGoal(id){go("transactions");tType.value="goal";tGoal.value=id;tCategory.value="Viagem";tPayment.value="Transferência";tDesc.value="Aporte para "+db.goals.find(g=>g.id===id).name}
+function renderBills(){
+ let sorted=db.bills.slice().sort((a,b)=>a.date.localeCompare(b.date));let open=sum(sorted.filter(b=>!b.paid));billTotal.textContent=brl(open)+" em aberto";
+ billList.innerHTML=sorted.length?sorted.map(b=>{let d=new Date(b.date+"T12:00"),over=!b.paid&&b.date<today;return `<div class="payment"><div class="paydate"><b>${String(d.getDate()).padStart(2,"0")}</b>${d.toLocaleDateString("pt-BR",{month:"short"}).replace(".","")}</div><div class="paymain"><strong>${b.name}</strong><small>${b.category} · ${b.payment}${b.recurring!=="Não"?" · "+b.recurring:""}</small></div><div style="text-align:right"><strong>${brl(b.amount)}</strong><br><span class="status ${b.paid?"paid":""}">${b.paid?"Pago":over?"Vencido":"Pendente"}</span></div><button class="secondary" onclick="toggleBill(${b.id})">${b.paid?"Desfazer":"Pagar"}</button><button class="link" onclick="delBill(${b.id})">×</button></div>`}).join(""):'<div class="empty">Nenhum pagamento cadastrado.</div>'
+}
+function renderAlerts(es,inc,exp){
+ let arr=[],cats={};es.filter(e=>e.type==="expense").forEach(e=>cats[e.category]=(cats[e.category]||0)+e.amount);let top=Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+ let pending=db.bills.filter(b=>!b.paid&&b.date>=today).sort((a,b)=>a.date.localeCompare(b.date))[0];
+ if(top&&exp&&top[1]/exp>=.30)arr.push(`💡 <b>${top[0]}</b> representa ${(top[1]/exp*100).toFixed(0)}% dos seus gastos do mês.`);
+ if(inc&&exp/inc>=.70)arr.push(`⚠️ Seus gastos já consomem ${(exp/inc*100).toFixed(0)}% das suas entradas.`);
+ if(pending){let days=Math.ceil((new Date(pending.date)-new Date(today))/86400000);if(days<=7)arr.push(`🔔 <b>${pending.name}</b> vence ${days===0?"hoje":"em "+days+" dia(s)"} — ${brl(pending.amount)}.`)}
+ if(!arr.length)arr.push("✨ Tudo tranquilo por enquanto. Continue registrando seus gastos para a Mari Finance entender seus hábitos.");
+ alerts.innerHTML=arr.map(x=>`<div class="alert">${x}</div>`).join("")
+}
+function drawPie(es,total){
+ let ctx=pie.getContext("2d");ctx.clearRect(0,0,260,220);let c={};es.forEach(e=>c[e.category]=(c[e.category]||0)+e.amount);let vals=Object.values(c),keys=Object.keys(c);
+ if(!total){ctx.beginPath();ctx.arc(130,105,72,0,Math.PI*2);ctx.lineWidth=24;ctx.strokeStyle="#f1e5eb";ctx.stroke();legend.innerHTML='<div class="empty">Sem gastos neste mês.</div>';return}
+ let start=-Math.PI/2;vals.forEach((v,i)=>{let a=v/total*Math.PI*2;ctx.beginPath();ctx.moveTo(130,105);ctx.arc(130,105,78,start,start+a);ctx.closePath();ctx.fillStyle=`hsl(${330-i*23} 55% ${58+i*2}%)`;ctx.fill();start+=a});
+ legend.innerHTML=Object.entries(c).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="display:flex;justify-content:space-between;font-size:11px;margin:5px 0"><span>${ICONS[k]||"•"} ${k}</span><b>${(v/total*100).toFixed(1)}%</b></div>`).join("")
+}
+function renderReports(){
+ let m=rMonth.value||month(),es=db.transactions.filter(e=>e.date.startsWith(m)),exp=es.filter(e=>e.type==="expense"),inc=es.filter(e=>e.type==="income"),sav=es.filter(e=>e.type==="goal");let cats={},pays={};exp.forEach(e=>{cats[e.category]=(cats[e.category]||0)+e.amount;pays[e.payment]=(pays[e.payment]||0)+e.amount});
+ catBars.innerHTML=barRows(cats,sum(exp));payBars.innerHTML=barRows(pays,sum(exp));reportSummary.innerHTML=`Entradas: <b class="income">${brl(sum(inc))}</b><br>Gastos: <b class="expense">${brl(sum(exp))}</b><br>Guardado em metas: <b>${brl(sum(sav))}</b><br>Saldo livre: <b>${brl(sum(inc)-sum(exp)-sum(sav))}</b>`
+}
+rMonth.addEventListener("change",renderReports);
+function barRows(obj,total){let a=Object.entries(obj).sort((x,y)=>y[1]-x[1]);return a.length?a.map(([k,v])=>`<div class="bar-row"><div class="bar-label"><span>${k}</span><b>${brl(v)} · ${total?(v/total*100).toFixed(1):0}%</b></div><div class="bar-bg"><i style="width:${total?v/total*100:0}%"></i></div></div>`).join(""):'<div class="empty">Sem dados.</div>'}
+function exportExcel(){
+ if(typeof XLSX==="undefined")return alert("Conecte-se à internet para gerar o Excel.");
+ let m=rMonth.value||month(),es=db.transactions.filter(e=>e.date.startsWith(m)),wb=XLSX.utils.book_new(),inc=sum(es.filter(e=>e.type==="income")),exp=sum(es.filter(e=>e.type==="expense")),sav=sum(es.filter(e=>e.type==="goal")),cats={};es.filter(e=>e.type==="expense").forEach(e=>cats[e.category]=(cats[e.category]||0)+e.amount);
+ let s=[["MARI FINANCE — RESUMO",null],["Mês",m],["Entradas",inc],["Gastos",exp],["Guardado em metas",sav],["Saldo livre",inc-exp-sav],[],["Categoria","Valor","% dos gastos"],...Object.entries(cats).map(([k,v])=>[k,v,exp?v/exp:0])];
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(s),"Resumo");
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([["Data","Tipo","Descrição","Categoria","Pagamento","Valor","Meta"],...es.map(e=>[e.date,e.type,e.desc,e.category,e.payment,e.amount,db.goals.find(g=>+g.id===+e.goalId)?.name||""])]),"Lançamentos");
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([["Pagamento","Vencimento","Valor","Categoria","Forma","Recorrência","Status"],...db.bills.map(b=>[b.name,b.date,b.amount,b.category,b.payment,b.recurring,b.paid?"Pago":"Pendente"])]),"DDA");
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([["Meta","Valor-alvo","Guardado","% concluído"],...db.goals.map(g=>{let s=sum(db.transactions.filter(e=>e.type==="goal"&&+e.goalId===+g.id));return[g.name,g.target,s,s/g.target]})]),"Metas");
+ XLSX.writeFile(wb,`Mari_Finance_${m}.xlsx`);
+}
+function go(id,btn){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");else{let map={home:0,transactions:1,goals:2,bills:3,reports:4};document.querySelectorAll("nav button")[map[id]].classList.add("active")}window.scrollTo(0,0)}
+init();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
+}
+</script>
+</body></html>
